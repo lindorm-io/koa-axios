@@ -5,6 +5,7 @@ export interface IKoaAxiosContext extends IKoaAppContext {
   axios: {
     [key: string]: Axios;
   };
+  token?: { bearer?: { token?: string } };
 }
 
 export interface IBasicAuthCredentials {

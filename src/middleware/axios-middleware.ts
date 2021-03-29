@@ -21,9 +21,11 @@ export const axiosMiddleware = (options: IAxiosMiddlewareOptions) => async (
   ctx.axios = {
     ...(ctx.axios || {}),
     [options.name]: new Axios({
+      auth: {
+        basic: options.basicAuth,
+        bearer: ctx.token?.bearer?.token,
+      },
       baseUrl: options.baseUrl,
-      basicAuth: options.basicAuth,
-      bearerAuth: options.bearerAuth,
       logger: ctx.logger,
       middleware: [headerMiddleware, ...(options.middleware || [])],
       name: options.name,

@@ -18,7 +18,6 @@ This package has the following peer dependencies:
 koaApp.addMiddleware(axiosMiddleware({
   baseUrl: "http://lindorm.io",
   basicAuth: { username: "secret", password: "secret" },
-  bearerAuth: "jwt.jwt.jwt",
   middleware: [],
   name: "ClientName",
 }))

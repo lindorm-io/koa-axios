@@ -14,12 +14,21 @@ describe("axiosMiddleware", () => {
 
   beforeEach(() => {
     options = {
+      baseUrl: "https://lindorm.io/",
+      basicAuth: {
+        username: "username",
+        password: "password",
+      },
+      middleware: [{ request: jest.fn() }],
       name: "Client",
     };
     ctx = {
       logger,
       metadata: {
         correlationId: "correlationId",
+      },
+      token: {
+        bearer: { token: "jwt.jwt.jwt" },
       },
     };
   });
@@ -28,6 +37,7 @@ describe("axiosMiddleware", () => {
     await expect(axiosMiddleware(options)(ctx, next)).resolves.toBe(undefined);
 
     expect(ctx.axios.Client).toStrictEqual(expect.any(Axios));
+    expect(ctx.axios.Client.auth).toMatchSnapshot();
     expect(ctx.metrics.axios).toBe(0);
   });
 });
