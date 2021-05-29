@@ -25,7 +25,10 @@ describe("axiosMiddleware", () => {
     ctx = {
       logger,
       metadata: {
-        correlationId: "correlationId",
+        correlationId: "6be482f0-943b-4b64-8c9c-4c7f2efcf50c",
+      },
+      metadataHeaders: {
+        "X-Correlation-ID": "6be482f0-943b-4b64-8c9c-4c7f2efcf50c",
       },
       token: {
         bearer: { token: "jwt.jwt.jwt" },
@@ -37,6 +40,7 @@ describe("axiosMiddleware", () => {
     await expect(axiosMiddleware(options)(ctx, next)).resolves.toBe(undefined);
 
     expect(ctx.axios.Client).toStrictEqual(expect.any(Axios));
+    expect(ctx.axios.Client.middleware.length).toBe(2);
     expect(ctx.axios.Client.auth).toMatchSnapshot();
     expect(ctx.metrics.axios).toBe(0);
   });
