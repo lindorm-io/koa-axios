@@ -4,7 +4,7 @@ import { logger } from "../test";
 import { axiosMiddleware } from "./axios-middleware";
 import { Axios } from "@lindorm-io/axios";
 
-MockDate.set("2020-01-01 08:00:00.000");
+MockDate.set("2020-01-01T08:00:00.000Z");
 
 const next = jest.fn();
 
@@ -37,7 +37,7 @@ describe("axiosMiddleware", () => {
   });
 
   test("should create axios client on context", async () => {
-    await expect(axiosMiddleware(options)(ctx, next)).resolves.toBe(undefined);
+    await expect(axiosMiddleware(options)(ctx, next)).resolves.toBeUndefined();
 
     expect(ctx.axios.Client).toStrictEqual(expect.any(Axios));
     expect(ctx.axios.Client.middleware.length).toBe(2);
