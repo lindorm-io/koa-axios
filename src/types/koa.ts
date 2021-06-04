@@ -1,14 +1,14 @@
 import { Axios } from "@lindorm-io/axios";
-import { IKoaAppContext } from "@lindorm-io/koa";
+import { KoaContext } from "@lindorm-io/koa";
 
-export interface IKoaAxiosContext extends IKoaAppContext {
+export interface AxiosContext extends KoaContext {
   axios: {
     [key: string]: Axios;
   };
   token: { bearer?: { token?: string } };
 }
 
-export interface IBasicAuthCredentials {
+export interface BasicAuthCredentials {
   username: string;
   password: string;
 }

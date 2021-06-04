@@ -1,9 +1,9 @@
-import { IAxiosMiddleware } from "@lindorm-io/axios";
-import { IBasicAuthCredentials } from "./koa";
+import { AxiosMiddleware } from "@lindorm-io/axios";
+import { BasicAuthCredentials } from "./koa";
 
 export interface IAxiosMiddlewareOptions {
   baseUrl?: string;
-  basicAuth?: IBasicAuthCredentials;
-  middleware?: Array<IAxiosMiddleware>;
-  name: string;
+  basicAuth?: BasicAuthCredentials;
+  middleware?: Array<AxiosMiddleware>;
+  keyName: string;
 }

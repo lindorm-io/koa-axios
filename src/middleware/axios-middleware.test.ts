@@ -1,8 +1,8 @@
 import MockDate from "mockdate";
-import { IAxiosMiddlewareOptions } from "../types";
-import { logger } from "../test";
-import { axiosMiddleware } from "./axios-middleware";
 import { Axios } from "@lindorm-io/axios";
+import { IAxiosMiddlewareOptions } from "../types";
+import { axiosMiddleware } from "./axios-middleware";
+import { logger } from "../test";
 
 MockDate.set("2020-01-01T08:00:00.000Z");
 
@@ -20,9 +20,10 @@ describe("axiosMiddleware", () => {
         password: "password",
       },
       middleware: [{ request: jest.fn() }],
-      name: "Client",
+      keyName: "Client",
     };
     ctx = {
+      axios: {},
       logger,
       metadata: {
         correlationId: "6be482f0-943b-4b64-8c9c-4c7f2efcf50c",
@@ -30,6 +31,7 @@ describe("axiosMiddleware", () => {
       metadataHeaders: {
         "X-Correlation-ID": "6be482f0-943b-4b64-8c9c-4c7f2efcf50c",
       },
+      metrics: {},
       token: {
         bearer: { token: "jwt.jwt.jwt" },
       },
@@ -40,8 +42,7 @@ describe("axiosMiddleware", () => {
     await expect(axiosMiddleware(options)(ctx, next)).resolves.toBeUndefined();
 
     expect(ctx.axios.Client).toStrictEqual(expect.any(Axios));
-    expect(ctx.axios.Client.middleware.length).toBe(2);
-    expect(ctx.axios.Client.auth).toMatchSnapshot();
+    expect(ctx.axios.Client.middleware.length).toBe(4);
     expect(ctx.metrics.axios).toBe(0);
   });
 });

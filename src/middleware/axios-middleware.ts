@@ -1,14 +1,14 @@
-import { Axios, IAxiosRequest } from "@lindorm-io/axios";
-import { IAxiosMiddlewareOptions, IKoaAxiosContext } from "../types";
-import { DefaultState, Middleware } from "koa";
+import { Axios, AxiosMiddleware, axiosBasicAuthMiddleware, axiosBearerAuthMiddleware } from "@lindorm-io/axios";
+import { Middleware } from "@lindorm-io/koa";
+import { IAxiosMiddlewareOptions, AxiosContext } from "../types";
 
 export const axiosMiddleware =
-  (options: IAxiosMiddlewareOptions): Middleware<DefaultState, IKoaAxiosContext> =>
+  (options: IAxiosMiddlewareOptions): Middleware<AxiosContext> =>
   async (ctx, next): Promise<void> => {
     const start = Date.now();
 
-    const metadataMiddleware = {
-      request: async (request: IAxiosRequest): Promise<IAxiosRequest> => ({
+    const metadataMiddleware: AxiosMiddleware = {
+      request: async (request) => ({
         ...request,
         headers: {
           ...request.headers,
@@ -17,26 +17,23 @@ export const axiosMiddleware =
       }),
     };
 
-    ctx.axios = {
-      ...(ctx.axios || {}),
-      [options.name]: new Axios({
-        auth: {
-          basic: options.basicAuth,
-          bearer: ctx.token?.bearer?.token,
-        },
-        baseUrl: options.baseUrl,
-        logger: ctx.logger,
-        middleware: [metadataMiddleware, ...(options.middleware || [])],
-        name: options.name,
-      }),
-    };
+    const middleware = [metadataMiddleware];
 
-    const end = Date.now() - start;
+    if (options.basicAuth) {
+      middleware.push(axiosBasicAuthMiddleware(options.basicAuth));
+    }
+    if (ctx.token?.bearer?.token) {
+      middleware.push(axiosBearerAuthMiddleware(ctx.token?.bearer?.token));
+    }
 
-    ctx.metrics = {
-      ...(ctx.metrics || {}),
-      axios: ctx.metrics?.axios ? ctx.metrics.axios + end : end,
-    };
+    ctx.axios[options.keyName] = new Axios({
+      baseUrl: options.baseUrl,
+      logger: ctx.logger,
+      middleware: [...middleware, ...(options.middleware || [])],
+      name: options.keyName,
+    });
+
+    ctx.metrics.axios = (ctx.metrics.axios || 0) + (Date.now() - start);
 
     await next();
   };
