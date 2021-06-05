@@ -1,9 +1,17 @@
 import { Axios, AxiosMiddleware, axiosBasicAuthMiddleware, axiosBearerAuthMiddleware } from "@lindorm-io/axios";
+import { AxiosBasicCredentials } from "axios";
+import { AxiosContext } from "../types";
 import { Middleware } from "@lindorm-io/koa";
-import { IAxiosMiddlewareOptions, AxiosContext } from "../types";
+
+interface Options {
+  baseUrl?: string;
+  basicAuth?: AxiosBasicCredentials;
+  clientName: string;
+  middleware?: Array<AxiosMiddleware>;
+}
 
 export const axiosMiddleware =
-  (options: IAxiosMiddlewareOptions): Middleware<AxiosContext> =>
+  (options: Options): Middleware<AxiosContext> =>
   async (ctx, next): Promise<void> => {
     const start = Date.now();
 
@@ -26,11 +34,11 @@ export const axiosMiddleware =
       middleware.push(axiosBearerAuthMiddleware(ctx.token?.bearer?.token));
     }
 
-    ctx.axios[options.keyName] = new Axios({
+    ctx.client[options.clientName] = new Axios({
       baseUrl: options.baseUrl,
       logger: ctx.logger,
       middleware: [...middleware, ...(options.middleware || [])],
-      name: options.keyName,
+      name: options.clientName,
     });
 
     ctx.metrics.axios = (ctx.metrics.axios || 0) + (Date.now() - start);
