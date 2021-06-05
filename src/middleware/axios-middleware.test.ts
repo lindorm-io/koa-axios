@@ -22,7 +22,7 @@ describe("axiosMiddleware", () => {
       clientName: "axiosClient",
     };
     ctx = {
-      client: {},
+      axios: {},
       logger,
       metadata: { correlationId: "6be482f0-943b-4b64-8c9c-4c7f2efcf50c" },
       metadataHeaders: { "X-Correlation-ID": "6be482f0-943b-4b64-8c9c-4c7f2efcf50c" },
@@ -34,8 +34,8 @@ describe("axiosMiddleware", () => {
   test("should create axios client on context", async () => {
     await expect(axiosMiddleware(options)(ctx, next)).resolves.toBeUndefined();
 
-    expect(ctx.client.axiosClient).toStrictEqual(expect.any(Axios));
-    expect(ctx.client.axiosClient.middleware.length).toBe(4);
+    expect(ctx.axios.axiosClient).toStrictEqual(expect.any(Axios));
+    expect(ctx.axios.axiosClient.middleware.length).toBe(4);
     expect(ctx.metrics.axios).toBe(0);
   });
 });

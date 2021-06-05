@@ -37,17 +37,17 @@
     "test:unit:watch": "jest --config jest.config.js --watch --",
     "test:update": "jest --updateSnapshot",
     "test:watch": "npm run test:unit:watch",
-    "update": "ncu -u && npm install",
+    "update": "ncu -u && ncu -u",
     "validate": "npm run test:clear && npm run check:lint && npm run check:types && npm test"
   },
   "peerDependencies": {
     "@lindorm-io/axios": ">=0.2.1",
-    "@lindorm-io/koa": ">=0.2.13",
+    "@lindorm-io/koa": ">=0.2.15",
     "@lindorm-io/winston": ">=0.1.5"
   },
   "devDependencies": {
     "@lindorm-io/axios": "^0.2.1",
-    "@lindorm-io/koa": "^0.2.13",
+    "@lindorm-io/koa": "^0.2.15",
     "@lindorm-io/winston": "^0.1.5",
     "@types/express-useragent": "1.0.0",
     "@types/jest": "^26.0.23",

@@ -34,7 +34,7 @@ export const axiosMiddleware =
       middleware.push(axiosBearerAuthMiddleware(ctx.token?.bearer?.token));
     }
 
-    ctx.client[options.clientName] = new Axios({
+    ctx.axios[options.clientName] = new Axios({
       baseUrl: options.baseUrl,
       logger: ctx.logger,
       middleware: [...middleware, ...(options.middleware || [])],
