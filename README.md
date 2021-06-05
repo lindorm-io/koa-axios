@@ -16,11 +16,14 @@ This package has the following peer dependencies:
 
 ```typescript
 koaApp.addMiddleware(axiosMiddleware({
-  baseUrl: "http://lindorm.io",
-  basicAuth: { username: "secret", password: "secret" },
+  baseUrl: "https://lindorm.io/",
+  basicAuth: {
+    username: "username",
+    password: "password",
+  },
   middleware: [],
-  name: "ClientName",
+  clientName: "axiosClient",
 }))
 
-const response = await ctx.axios.ClientName.get("/path");
+const response = await ctx.client.axiosClient.get("/path");
 ```
