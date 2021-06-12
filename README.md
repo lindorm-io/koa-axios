@@ -21,8 +21,8 @@ koaApp.addMiddleware(axiosMiddleware({
     username: "username",
     password: "password",
   },
-  middleware: [],
   clientName: "axiosClient",
+  middleware: [],
 }))
 
 const response = await ctx.client.axiosClient.get("/path");

@@ -41,22 +41,22 @@
     "validate": "npm run test:clear && npm run check:lint && npm run check:types && npm test"
   },
   "peerDependencies": {
-    "@lindorm-io/axios": ">=0.2.1",
-    "@lindorm-io/koa": ">=0.2.15",
-    "@lindorm-io/winston": ">=0.1.5"
+    "@lindorm-io/axios": ">=0.2.2",
+    "@lindorm-io/koa": ">=0.2.21",
+    "@lindorm-io/winston": ">=0.1.6"
   },
   "devDependencies": {
-    "@lindorm-io/axios": "^0.2.1",
-    "@lindorm-io/koa": "^0.2.15",
-    "@lindorm-io/winston": "^0.1.5",
+    "@lindorm-io/axios": "^0.2.2",
+    "@lindorm-io/koa": "^0.2.21",
+    "@lindorm-io/winston": "^0.1.6",
     "@types/express-useragent": "1.0.0",
     "@types/jest": "^26.0.23",
     "@types/koa": "^2.13.3",
     "@types/koa-bodyparser": "^4.3.1",
     "@types/koa-router": "^7.4.2",
     "@types/node": "15.6.2",
-    "@typescript-eslint/eslint-plugin": "^4.26.0",
-    "@typescript-eslint/parser": "^4.26.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
     "axios": "^0.21.1",
     "eslint": "^7.28.0",
     "husky": "^6.0.0",
@@ -66,7 +66,7 @@
     "mockdate": "^3.0.5",
     "prettier": "2.3.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.2",
+    "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.2"
   }
