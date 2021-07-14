@@ -2,16 +2,22 @@ import { Axios, AxiosMiddleware, axiosBasicAuthMiddleware, axiosBearerAuthMiddle
 import { AxiosBasicCredentials } from "axios";
 import { AxiosContext } from "../types";
 import { Middleware } from "@lindorm-io/koa";
+import { get } from "lodash";
 
-interface Options {
+interface MiddlewareOptions {
   baseUrl?: string;
   basicAuth?: AxiosBasicCredentials;
   clientName: string;
   middleware?: Array<AxiosMiddleware>;
 }
 
+export interface AxiosMiddlewareOptions {
+  baseUrl?: string;
+}
+
 export const axiosMiddleware =
-  (options: Options): Middleware<AxiosContext> =>
+  (middlewareOptions: MiddlewareOptions) =>
+  (options: AxiosMiddlewareOptions = {}): Middleware<AxiosContext> =>
   async (ctx, next): Promise<void> => {
     const start = Date.now();
 
@@ -27,18 +33,20 @@ export const axiosMiddleware =
 
     const middleware = [metadataMiddleware];
 
-    if (options.basicAuth) {
-      middleware.push(axiosBasicAuthMiddleware(options.basicAuth));
+    if (middlewareOptions.basicAuth) {
+      middleware.push(axiosBasicAuthMiddleware(middlewareOptions.basicAuth));
     }
     if (ctx.token?.bearer?.token) {
       middleware.push(axiosBearerAuthMiddleware(ctx.token?.bearer?.token));
     }
 
-    ctx.axios[options.clientName] = new Axios({
-      baseUrl: options.baseUrl,
+    const baseUrl = options?.baseUrl ? get(ctx, options.baseUrl) : middlewareOptions.baseUrl;
+
+    ctx.axios[middlewareOptions.clientName] = new Axios({
+      baseUrl,
       logger: ctx.logger,
-      middleware: [...middleware, ...(options.middleware || [])],
-      name: options.clientName,
+      middleware: [...middleware, ...(middlewareOptions.middleware || [])],
+      name: middlewareOptions.clientName,
     });
 
     ctx.metrics.axios = (ctx.metrics.axios || 0) + (Date.now() - start);
