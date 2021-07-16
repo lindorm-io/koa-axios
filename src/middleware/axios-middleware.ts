@@ -36,8 +36,8 @@ export const axiosMiddleware =
     if (middlewareOptions.basicAuth) {
       middleware.push(axiosBasicAuthMiddleware(middlewareOptions.basicAuth));
     }
-    if (ctx.token?.bearer?.token) {
-      middleware.push(axiosBearerAuthMiddleware(ctx.token?.bearer?.token));
+    if (ctx.token?.bearerToken?.token) {
+      middleware.push(axiosBearerAuthMiddleware(ctx.token?.bearerToken?.token));
     }
 
     const baseUrl = options?.baseUrl ? get(ctx, options.baseUrl) : middlewareOptions.baseUrl;

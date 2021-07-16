@@ -3,5 +3,5 @@ import { KoaContext } from "@lindorm-io/koa";
 
 export interface AxiosContext extends KoaContext {
   axios: Record<string, Axios>;
-  token: { bearer?: { token?: string } };
+  token: { bearerToken?: { token?: string } };
 }

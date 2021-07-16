@@ -34,7 +34,7 @@ describe("axiosMiddleware", () => {
       metadata: { correlationId: "6be482f0-943b-4b64-8c9c-4c7f2efcf50c" },
       metadataHeaders: { "X-Correlation-ID": "6be482f0-943b-4b64-8c9c-4c7f2efcf50c" },
       metrics: {},
-      token: { bearer: { token: "jwt.jwt.jwt" } },
+      token: { bearerToken: { token: "jwt.jwt.jwt" } },
     };
   });
 
