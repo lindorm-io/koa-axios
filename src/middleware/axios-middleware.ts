@@ -1,4 +1,9 @@
-import { Axios, AxiosMiddleware, axiosBasicAuthMiddleware, axiosBearerAuthMiddleware } from "@lindorm-io/axios";
+import {
+  Axios,
+  AxiosMiddleware,
+  axiosBasicAuthMiddleware,
+  axiosBearerAuthMiddleware,
+} from "@lindorm-io/axios";
 import { AxiosBasicCredentials } from "axios";
 import { AxiosContext } from "../types";
 import { Middleware } from "@lindorm-io/koa";
@@ -26,7 +31,7 @@ export const axiosMiddleware =
         ...request,
         headers: {
           ...request.headers,
-          ...ctx.metadataHeaders,
+          ...ctx.getMetadataHeaders(),
         },
       }),
     };
@@ -40,7 +45,9 @@ export const axiosMiddleware =
       middleware.push(axiosBearerAuthMiddleware(ctx.token?.bearerToken?.token));
     }
 
-    const baseUrl = options?.baseUrl ? get(ctx, options.baseUrl) : middlewareOptions.baseUrl;
+    const baseUrl = options?.baseUrl
+      ? get(ctx, options.baseUrl)
+      : middlewareOptions.baseUrl;
 
     ctx.axios[middlewareOptions.clientName] = new Axios({
       baseUrl,
